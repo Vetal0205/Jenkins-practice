@@ -1,35 +1,35 @@
 pipeline {
-    options { timestamps() }
+    agent {
+        docker {
+            image 'python:3.8'
+            args '-v /var/run/docker.sock:/var/run/docker.sock' // Mount Docker socket
+        }
+    }
 
-    agent none
     stages {
-        stage('Check scm') {
-            agent any
+        stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-        stage('Test') {
-            agent { 
-                docker { 
-                    image 'alpine' 
-                    args '-u=root' } }
+        
+        stage('Build and Test') {
             steps {
-                sh 'apk add --update python3 py-pip'
-                sh 'pip install logging'
-                sh 'pip install xmlrunner'
-                sh 'python3 test_note_book.py'
+                sh 'python -m venv venv'
+                sh 'source venv/bin/activate && pip install -r requirements.txt'
+                sh 'source venv/bin/activate && python -m unittest discover -s tests -p "test_*.py"'
             }
-            post {
-                always {
-                    junit 'Test-Reports/*.xml'
-                }
-                success {
-                    echo "Application testing successfully completed "
-                }
-                failure {
-                    echo "Ooopps!!! Tests failed!"
-                }
+        }
+
+        stage('Build Container') {
+            steps {
+                sh 'docker build -t my_notebook_app .'
+            }
+        }
+
+        stage('Deploy Container') {
+            steps {
+                sh 'docker run -d -p 8080:8080 my_notebook_app'
             }
         }
     }
