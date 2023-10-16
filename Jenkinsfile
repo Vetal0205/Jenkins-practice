@@ -1,10 +1,6 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.8'
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // Mount Docker socket
-        }
-    }
+    options{timestamps()}
+    agent none
 
     stages {
         stage('Checkout') {
