@@ -1,4 +1,5 @@
 import unittest
+import xmlrunner
 from notebook import Note, Notebook
 import logging
 
@@ -63,4 +64,6 @@ class TestNotebook(unittest.TestCase):
                         else:
                             logger.error(f"{location[0]}")
 if __name__ == "__main__":
+    runner = xmlrunner.XMLTestRunner(output="Test-Reports")
+    unittest.main(testRunner=runner)
     unittest.main()
