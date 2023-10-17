@@ -13,7 +13,7 @@ pipeline {
         stage('Build and Test') {
             agent  {
                 docker { 
-                    image 'python:3.11.5-alpine' 
+                    image 'python:3.11.5' 
                     args '-u root'
                 }
             }
