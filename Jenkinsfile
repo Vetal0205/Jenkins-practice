@@ -1,9 +1,7 @@
 pipeline {
     options{timestamps()}
     agent none
-    environment {
-        WORKSPACE = "/var/jenkins_home/workspace/${JOB_NAME}"
-    }
+
     stages {
         stage('Checkout') {
             agent any
@@ -15,7 +13,8 @@ pipeline {
         stage('Build and Test') {
             agent{ docker {
                 image 'python:3.11.5-slim'
-                args "-u root"}}
+                args "--entrypoint='/bin/sh -c' -u root"                }
+            }
             steps {
                 sh 'echo hi'
                 sh 'python -m venv venv'
