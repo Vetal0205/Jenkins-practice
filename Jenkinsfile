@@ -13,11 +13,9 @@ pipeline {
         }
         
         stage('Build and Test') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile'
-                }
-            }
+            agent{ docker {
+                image 'python:3.11.5-slim'
+                args "-u root"}}
             steps {
                 sh 'python -m venv venv'
                 sh 'source venv/bin/activate && pip install -r requirements.txt'
