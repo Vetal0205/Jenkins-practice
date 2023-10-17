@@ -11,7 +11,12 @@ pipeline {
         }
         
         stage('Build and Test') {
-            agent any
+            agent  {
+                docker { 
+                    image 'python:3.11.5-alpine' 
+                    args '-u root'
+                }
+            }
             steps {
                 sh 'echo hi'
                 sh 'apk add --update python3 py-pip'
