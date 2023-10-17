@@ -1,1 +1,1 @@
-collections==0.6.0
+xmlrunner==1.7.7
