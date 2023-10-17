@@ -1,6 +1,5 @@
 pipeline {
     options{timestamps()}
-    agent none
 
     stages {
         stage('Checkout') {
