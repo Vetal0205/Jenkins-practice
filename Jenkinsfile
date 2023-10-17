@@ -15,7 +15,7 @@ pipeline {
         stage('Build and Test') {
             agent{ docker {
                 image 'python:3.11.5-slim'
-                args "-u root"}}
+                args "-u jenkins"}}
             steps {
                 sh 'python -m venv venv'
                 sh 'source venv/bin/activate && pip install -r requirements.txt'
