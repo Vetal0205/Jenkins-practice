@@ -17,6 +17,7 @@ pipeline {
                 image 'python:3.11.5-slim'
                 args "-u root"}}
             steps {
+                sh 'echo hi'
                 sh 'python -m venv venv'
                 sh 'source venv/bin/activate && pip install -r requirements.txt'
                 sh 'source venv/bin/activate && python -m unittest discover -s tests -p "test_*.py"'
