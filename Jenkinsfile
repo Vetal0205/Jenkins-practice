@@ -1,6 +1,9 @@
 pipeline {
     options{timestamps()}
-
+    agent none
+    environment {
+        WORKSPACE = "/var/jenkins_home/workspace/${JOB_NAME}"
+    }
     stages {
         stage('Checkout') {
             agent any
