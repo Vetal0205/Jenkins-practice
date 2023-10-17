@@ -13,7 +13,8 @@ pipeline {
         stage('Build and Test') {
             agent{ docker {
                 image 'python:3.11.5-slim'
-                args '--entrypoint "" -u root'
+                args '--entrypoint "/bin/sh" -u root'
+
                
                 }
             }
