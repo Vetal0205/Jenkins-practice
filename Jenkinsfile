@@ -10,6 +10,7 @@ pipeline {
         }
         
         stage('Build and Test') {
+            agent{ docker {image 'python:3.11.5-slim'}}
             steps {
                 sh 'python -m venv venv'
                 sh 'source venv/bin/activate && pip install -r requirements.txt'
@@ -19,13 +20,13 @@ pipeline {
 
         stage('Build Container') {
             steps {
-                sh 'docker build -t my_notebook_app .'
+                sh 'docker build -t notebook_app .'
             }
         }
 
         stage('Deploy Container') {
             steps {
-                sh 'docker run -d -p 8080:8080 my_notebook_app'
+                sh 'docker run -d notebook_app'
             }
         }
     }
