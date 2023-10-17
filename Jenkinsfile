@@ -14,9 +14,9 @@ pipeline {
             agent any
             steps {
                 sh 'echo hi'
-                // sh 'python -m venv venv'
-                // sh 'source venv/bin/activate && pip install -r requirements.txt'
-                // sh 'source venv/bin/activate && python -m unittest discover -s tests -p "test_*.py"'
+                sh 'apk add --update python3 py-pip'
+                sh 'pip install -r requirements.txt'
+                sh 'python -m unittest discover -s tests -p "test_*.py"'
             }
             post {
                 always {
