@@ -19,7 +19,6 @@ pipeline {
             }
             steps {
                 sh 'echo hi'
-                sh 'apk add --update python3 py-pip'
                 sh 'pip install -r requirements.txt'
                 sh 'python -m unittest discover -s tests -p "test_*.py"'
             }
