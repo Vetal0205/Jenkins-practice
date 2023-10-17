@@ -4,6 +4,7 @@ WORKDIR /app
 
 
 COPY test_note_book.py .
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 
