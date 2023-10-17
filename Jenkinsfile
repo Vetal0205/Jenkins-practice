@@ -35,16 +35,16 @@ pipeline {
             }
         }
 
-        // stage('Build Container') {
-        //     steps {
-        //         sh 'docker build -t notebook_app .'
-        //     }
-        // }
+        stage('Build Container') {
+            steps {
+                sh 'docker build -t notebook_app .'
+            }
+        }
 
-        // stage('Deploy Container') {
-        //     steps {
-        //         sh 'docker run -d notebook_app'
-        //     }
-        // }
+        stage('Deploy Container') {
+            steps {
+                sh 'docker run -d notebook_app'
+            }
+        }
     }
 }
