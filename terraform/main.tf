@@ -17,7 +17,7 @@ variable "REPOSITORY_URI" {
 }
 
 resource "aws_lightsail_container_service" "notebook_application" {
-  name = "notebook_app"
+  name = "notebook-app"
   power = "nano"
   scale = 1
 
@@ -35,7 +35,7 @@ resource "aws_lightsail_container_service" "notebook_application" {
 
 resource "aws_lightsail_container_service_deployment_version" "notebook_app_deployment" {
   container {
-    container_name = "notebook_application"
+    container_name = "notebook-application"
 
     image = "${var.REPOSITORY_URI}:latest"
     
@@ -46,7 +46,7 @@ resource "aws_lightsail_container_service_deployment_version" "notebook_app_depl
   }
 
   public_endpoint {
-    container_name = "notebook_application"
+    container_name = "notebook-application"
     # Consistent with the port exposed by the Dockerfile and app.py
     container_port = 8080
 
