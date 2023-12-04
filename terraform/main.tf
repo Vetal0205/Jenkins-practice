@@ -10,7 +10,7 @@ terraform {
 
 # Configure the AWS provider
 provider "aws" {
-  region= "us-east-1a"
+  region= "use1-az4"
 }
 
 resource "aws_security_group" "notebook_app" {
