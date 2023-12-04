@@ -1,56 +1,58 @@
 terraform {
-  required_version = ">=0.13.0"
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
+      source = "hashicorp/aws"
+      version = "5.28.0"
     }
   }
 }
 
 # Configure the AWS provider
 provider "aws" {
-  region = "us-east-1"
+  region     = "us-east-1"
 }
 
-resource "aws_security_group" "notebook_app" {
-  name        = "notebook_app"
-  description = "security group"
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
- ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags= {
-    Name = "notebook_app"
-  }
+variable "REPOSITORY_URI" {
+  type = string
 }
 
-resource "aws_instance" "app_instance" {
-  ami           = "ami-0fc5d935ebf8bc3bc"
-  instance_type = "t2.micro"
-  security_groups= ["notebook_app"]
+resource "aws_lightsail_container_service" "notebook_application" {
+  name = "notebook_app"
+  power = "nano"
+  scale = 1
+
+  private_registry_access {
+    ecr_image_puller_role {
+      is_active = true
+    }
+  }
+
+
   tags = {
-    Name = "app_instance"
+    version = "1.0.0"
   }
 }
 
-output "instance_public_ip" {
-  value     = aws_instance.app_instance.public_ip
-  sensitive = true
+resource "aws_lightsail_container_service_deployment_version" "notebook_app_deployment" {
+  container {
+    container_name = "notebook_application"
+
+    image = "${var.REPOSITORY_URI}:latest"
+    
+  }
+
+  public_endpoint {
+    container_name = "notebook_application"
+
+    health_check {
+      healthy_threshold   = 2
+      unhealthy_threshold = 2
+      timeout_seconds     = 2
+      interval_seconds    = 5
+      path                = "/"
+      success_codes       = "200-499"
+    }
+  }
+
+  service_name = aws_lightsail_container_service.notebook_application.name
 }
