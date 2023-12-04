@@ -44,7 +44,7 @@ resource "aws_security_group" "notebook_app" {
 resource "aws_instance" "app_instance" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t2.micro"
-  security_groups= [notebook_app"]
+  security_groups= ["notebook_app"]
   tags = {
     Name = "app_instance"
   }
