@@ -39,10 +39,16 @@ resource "aws_lightsail_container_service_deployment_version" "notebook_app_depl
 
     image = "${var.REPOSITORY_URI}:latest"
     
+    ports = {
+      # Consistent with the port exposed by the Dockerfile and app.py
+      8080 = "HTTP"
+    }
   }
 
   public_endpoint {
     container_name = "notebook_application"
+    # Consistent with the port exposed by the Dockerfile and app.py
+    container_port = 8080
 
     health_check {
       healthy_threshold   = 2
