@@ -87,9 +87,6 @@
 #         AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
 #       run: terraform apply -input=false -auto-approve -var="REPOSITORY_URI=${{ secrets.REPOSITORY_URI }}"
 #       working-directory: terraform
-
-eksctl create cluster --name notebookapp --region us-east-1 --nodegroup-name linux-nodes --node-type t2.micro --nodes 2
-
 name: Python application deploy to EKS
 on:
   push:
